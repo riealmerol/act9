@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Most Visited Countries</title>
+  <style>
+    :root {
+      --bg: #000;
+      --text: #fff;
+      --card-bg: rgba(255,255,255,0.1);
+    }
+    body.light {
+      --bg: #f4f4f4;
+      --text: #111;
+      --card-bg: rgba(0,0,0,0.1);
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    html {
+      scroll-behavior: smooth;
+    }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      transition: background 0.4s, color 0.4s;
+    }
+    .navbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 30px;
+      background: #111;
+      border-bottom: 1px solid #333;
+    }
+    body.light .navbar {
+      background: #fff;
+      border-bottom: 1px solid #ccc;
+    }
+    .navbar h1 {
+      font-size: 1.8rem;
+      color: var(--text);
+    }
+    .search-box input {
+      padding: 8px 12px;
+      border-radius: 5px;
+      border: none;
+      outline: none;
+      width: 200px;
+      background: #222;
+      color: white;
+    }
+    body.light .search-box input {
+      background: #ddd;
+      color: black;
+    }
+    .toggle {
+      margin-left: 10px;
+      background: #444;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 6px 12px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    body.light .toggle {
+      background: #ddd;
+      color: black;
+    }
+    .controls {
+      display: flex;
+      align-items: center;
+    }
+    .container {
+      flex: 1;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      width: 100%;
+    }
+    .card {
+      position: relative;
+      overflow: hidden;
+      background: var(--card-bg);
+    }
+    .card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: brightness(0.6);
+      transition: transform 0.5s ease;
+    }
+    .card:hover img {
+      transform: scale(1.1);
+      filter: brightness(0.4);
+    }
+    .overlay {
+      position: absolute;
+      bottom: 60px;
+      left: 20px;
+      z-index: 2;
+    }
+    .overlay h2 {
+      font-size: 1.6rem;
+      margin-bottom: 5px;
+      text-shadow: 2px 2px 5px #000;
+    }
+    .overlay p {
+      font-size: 1rem;
+      text-shadow: 2px 2px 5px #000;
+    }
+    .button {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      padding: 10px 20px;
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      backdrop-filter: blur(4px);
+      text-decoration: none;
+    }
+    .button:hover {
+      background: rgba(255, 255, 255, 0.4);
+    }
+    footer {
+      padding: 15px 30px;
+      background: #111;
+      color: #aaa;
+      text-align: center;
+      font-size: 0.9rem;
+    }
+    body.light footer {
+      background: #eee;
+      color: #333;
+    }
+    footer a {
+      color: inherit;
+      text-decoration: underline;
+      margin: 0 10px;
+    }
+    @media (max-width: 768px) {
+      .navbar h1 {
+        font-size: 1.3rem;
+      }
+      .search-box input {
+        width: 140px;
+      }
+      .overlay h2 {
+        font-size: 1.2rem;
+      }
+      .button {
+        font-size: 0.8rem;
+        padding: 6px 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="navbar">
+    <h1>🌍 Most Visited Countries</h1>
+    <div class="controls">
+      <input type="text" id="search" class="search-box" placeholder="Search country...">
+      <button class="toggle" onclick="toggleMode()">Toggle Mode</button>
+    </div>
+  </div>
+
+  <div class="container" id="countryContainer">
+  <div class="card" data-name="France">
+    <img src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34" alt="France">
+    <div class="overlay">
+      <h2>France</h2>
+      <p>89.4M visitors</p>
+    </div>
+    <a class="button" href="https://www.france.fr/en" target="_blank">Explore France</a>
+  </div>
+  <div class="card" data-name="United States">
+    <img src="C:\Users\TOSHIBA\OneDrive\Pictures\usa.webp" alt="USA">
+    <div class="overlay">
+      <h2>USA</h2>
+      <p>79.3M visitors</p>
+    </div>
+    <a class="button" href="https://www.visittheusa.com/" target="_blank">Explore USA</a>
+  </div>
+  <div class="card" data-name="Thailand">
+    <img src="C:\Users\TOSHIBA\OneDrive\Pictures\thai.webp" alt="Thailand">
+    <div class="overlay">
+      <h2>Thailand</h2>
+      <p>39.8M visitors</p>
+    </div>
+    <a class="button" href="https://www.tourismthailand.org/" target="_blank">Explore Thailand</a>
+  </div>
+  <div class="card" data-name="Japan">
+    <img src="C:\Users\TOSHIBA\OneDrive\Pictures\japan.webp" alt="Japan">
+    <div class="overlay">
+      <h2>Japan</h2>
+      <p>31.9M visitors</p>
+    </div>
+    <a class="button" href="https://www.japan.travel/en/" target="_blank">Explore Japan</a>
+  </div>
+  <div class="card" data-name="Italy">
+    <img src="C:\Users\TOSHIBA\OneDrive\Pictures\italy.webp" alt="Italy">
+    <div class="overlay">
+      <h2>Italy</h2>
+      <p>62.1M visitors</p>
+    </div>
+    <a class="button" href="https://www.italia.it/en" target="_blank">Explore Italy</a>
+  </div>
+  <div class="card" data-name="China">
+    <img src="C:\Users\TOSHIBA\OneDrive\Pictures\china.jpg" alt="China">
+    <div class="overlay">
+      <h2>China</h2>
+      <p>65.7M visitors</p>
+    </div>
+    <a class="button" href="https://www.travelchina.org.cn/" target="_blank">Explore China</a>
+  </div>
+  <div class="card" data-name="Turkey">
+    <img src="C:\Users\TOSHIBA\OneDrive\Pictures\turkey.webp" alt="Turkey">
+    <div class="overlay">
+      <h2>Turkey</h2>
+      <p>51.2M visitors</p>
+    </div>
+    <a class="button" href="https://goturkiye.com/" target="_blank">Explore Turkey</a>
+  </div>
+  <div class="card" data-name="Mexico">
+    <img src="C:\Users\TOSHIBA\OneDrive\Pictures\mexico.webp" alt="Mexico">
+    <div class="overlay">
+      <h2>Mexico</h2>
+      <p>45M visitors</p>
+    </div>
+    <a class="button" href="https://www.visitmexico.com/" target="_blank">Explore Mexico</a>
+  </div>
+  <div class="card" data-name="Germany">
+    <img src="C:\Users\TOSHIBA\OneDrive\Pictures\germany.webp" alt="Germany">
+    <div class="overlay">
+      <h2>Germany</h2>
+      <p>39.6M visitors</p>
+    </div>
+    <a class="button" href="https://www.germany.travel/" target="_blank">Explore Germany</a>
+  </div>
+  <div class="card" data-name="United Kingdom">
+    <img src="C:\Users\TOSHIBA\OneDrive\Pictures\united.webp" alt="United Kingdom">
+    <div class="overlay">
+      <h2>United Kingdom</h2>
+      <p>36.3M visitors</p>
+    </div>
+    <a class="button" href="https://www.visitbritain.com/" target="_blank">Explore UK</a>
+  </div>
+</div>
+
+
+  <footer>
+    Contact us | <a href="https://www.unwto.org/tourism-statistics" target="_blank">Tourism Data</a> | <a href="#">Travel Guide</a>
+  </footer>
+
+  <script>
+    const searchInput = document.getElementById("search");
+    const cards = document.querySelectorAll(".card");
+
+    searchInput.addEventListener("input", () => {
+      const query = searchInput.value.toLowerCase();
+      cards.forEach(card => {
+        const name = card.getAttribute("data-name").toLowerCase();
+        card.style.display = name.includes(query) ? "block" : "none";
+      });
+    });
+
+    function toggleMode() {
+      document.body.classList.toggle("light");
+      localStorage.setItem("theme", document.body.classList.contains("light") ? "light" : "dark");
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      const saved = localStorage.getItem("theme");
+      if (saved === "light") {
+        document.body.classList.add("light");
+      }
+    });
+  </script>
+
+</body>
+</html>
