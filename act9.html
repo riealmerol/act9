@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Meet Our Cats</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body {
+      height: 100%;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom right, #fbe8eb, #ffe6f0);
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    header {
+      width: 100%;
+      background: #ff6f91;
+      color: white;
+      padding: 30px 20px;
+      text-align: center;
+      font-size: 2.5em;
+      font-weight: bold;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    #search-bar {
+      margin: 20px auto;
+      text-align: center;
+    }
+
+    #searchInput {
+      padding: 10px;
+      width: 80%;
+      max-width: 400px;
+      font-size: 1em;
+      border: 2px solid #ff6f91;
+      border-radius: 8px;
+    }
+
+    .cat-container {
+      flex: 1;
+      width: 100%;
+      padding: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      background: url('https://www.transparenttextures.com/patterns/cubes.png');
+    }
+
+    .cat-card {
+      width: 250px;
+      height: 330px;
+      margin: 15px;
+      perspective: 1000px;
+    }
+
+    .card-inner {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transition: transform 0.8s;
+      transform-style: preserve-3d;
+    }
+
+    .cat-card:hover .card-inner {
+      transform: rotateY(180deg);
+    }
+
+    .card-front, .card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      backface-visibility: hidden;
+      overflow: hidden;
+    }
+
+    .card-front {
+      background: white;
+    }
+
+    .card-front img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .card-front h2 {
+      padding: 15px;
+      text-align: center;
+      background: #ffeef2;
+      font-size: 1.3em;
+      color: #333;
+    }
+
+    .card-back {
+      background: #fff8fa;
+      transform: rotateY(180deg);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .card-back h3 {
+      margin-bottom: 10px;
+      color: #ff6f91;
+    }
+
+    .card-back p {
+      color: #555;
+      font-size: 0.95em;
+      text-align: center;
+    }
+
+    footer {
+      width: 100%;
+      background: #ff6f91;
+      color: white;
+      text-align: center;
+      padding: 15px;
+      font-size: 1em;
+    }
+
+    .hide { display: none !important; }
+  </style>
+</head>
+<body>
+
+  <header>Meet Our Cats</header>
+
+  <div id="search-bar">
+    <input type="text" id="searchInput" placeholder="Search for a cat..." onkeyup="searchCats()" />
+  </div>
+
+  <div class="cat-container" id="catContainer"></div>
+
+  <footer>&copy; 2025 Meet Our Cats. All rights reserved.</footer>
+
+  <!-- Background Music -->
+  <audio id="bgMusic" autoplay loop>
+    <source src="https://www.bensound.com/bensound-music/bensound-clearday.mp3" type="audio/mpeg" />
+    Your browser does not support the audio tag.
+  </audio>
+
+  <!-- Meow Sound -->
+  <audio id="meowSound" src="https://www.fesliyanstudios.com/play-mp3/6965" preload="auto"></audio>
+
+  <script>
+    const cats = [
+      {
+        name: "Luna",
+        img: "https://cdn2.thecatapi.com/images/bpc.jpg",
+        info: "Luna is a calm and cuddly tabby who loves to nap in sunny spots and follow the sunbeams across the house all afternoon."
+      },
+      {
+        name: "Milo",
+        img: "https://cdn2.thecatapi.com/images/9it.jpg",
+        info: "Milo is an adventurous orange cat who climbs everything he can. He's always curious and ready to explore something new!"
+      },
+      {
+        name: "Cleo",
+        img: "https://cdn2.thecatapi.com/images/4oi.jpg",
+        info: "Cleo is a quiet and graceful black beauty. She enjoys quiet time, soft beds, and watching birds from the windowsill."
+      },
+      {
+        name: "Oliver",
+        img: "https://cdn2.thecatapi.com/images/7dr.jpg",
+        info: "Oliver is full of playful energy. He loves toy mice, feather wands, and chasing his tail. He brings joy to everyone!"
+      },
+      {
+        name: "Nala",
+        img: "https://cdn2.thecatapi.com/images/bvq.jpg",
+        info: "Nala is a sweet and gentle soul. She loves gentle pats, cozy blankets, and curling up next to her favorite humans."
+      },
+      {
+        name: "Simba",
+        img: "https://cdn2.thecatapi.com/images/bbr.jpg",
+        info: "Simba is the king of the house. He's brave, strong, and loves attention. Don’t forget his favorite—tummy rubs!"
+      },
+      {
+        name: "Choco",
+        img: "https://cdn2.thecatapi.com/images/MTY3ODIyMQ.jpg",
+        info: "Choco is a fluffy ball of brown fur. Sweet and sleepy, he loves warm laps, snacks, and long, cozy naps in the afternoon."
+      },
+      {
+        name: "Tiger",
+        img: "https://cdn2.thecatapi.com/images/cci.jpg",
+        info: "Tiger is fast, fearless, and fun! He's always running, jumping, and zooming from room to room with lightning speed."
+      },
+      
+    ];
+
+    const container = document.getElementById('catContainer');
+    const meow = document.getElementById('meowSound');
+
+    cats.forEach(cat => {
+      const card = document.createElement('div');
+      card.className = 'cat-card';
+      card.innerHTML = `
+        <div class="card-inner" onclick="meow.play()">
+          <div class="card-front">
+            <img src="${cat.img}" alt="${cat.name}" />
+            <h2>${cat.name}</h2>
+          </div>
+          <div class="card-back">
+            <h3>${cat.name}</h3>
+            <p>${cat.info}</p>
+          </div>
+        </div>
+      `;
+      container.appendChild(card);
+    });
+
+    function searchCats() {
+      const input = document.getElementById('searchInput').value.toLowerCase();
+      const cards = document.querySelectorAll('.cat-card');
+      cats.forEach((cat, index) => {
+        const match = cat.name.toLowerCase().includes(input);
+        cards[index].classList.toggle('hide', !match);
+      });
+    }
+  </script>
+
+</body>
+</html>
